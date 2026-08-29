@@ -27,6 +27,25 @@ export function getOrdersForCustomer(customerId) {
   return getOrders().filter((o) => o.customerId === customerId);
 }
 
+export function getOrdersForTailor(tailorId) {
+  return getOrders().filter((o) => o.tailorId === tailorId);
+}
+
+export function getOrderByRequestId(requestId) {
+  if (!requestId) return null;
+  return getOrders().find((o) => o.requestId === requestId) || null;
+}
+
+export function updateOrder(orderId, patch) {
+  const orders = getOrders();
+  const next = orders.map((o) =>
+    o.orderId === orderId || o.id === orderId ? { ...o, ...patch, orderId: o.orderId, id: o.id || o.orderId } : o
+  );
+  const saved = storageSet(ORDERS_KEY, next);
+  if (!saved) return null;
+  return next.find((o) => o.orderId === orderId || o.id === orderId) || null;
+}
+
 export function createOrder(payload) {
   const orders = getOrders();
   const orderId = payload.orderId || payload.id || nextOrderId(orders);

@@ -1,15 +1,20 @@
 import { Route } from "react-router-dom";
 import TailorHomePage from "./pages/TailorHomePage";
-import TailorPlaceholderPage from "./pages/TailorPlaceholderPage";
+import TailorDashboardPage from "./pages/TailorDashboardPage";
+import TailorRequestsPage from "./pages/TailorRequestsPage";
+import TailorRequestDetailPage from "./pages/TailorRequestDetailPage";
+import TailorOrdersPage from "./pages/TailorOrdersPage";
+import TailorOrderDetailPage from "./pages/TailorOrderDetailPage";
+import TailorProfilePage from "./pages/TailorProfilePage";
 
 export const tailorRoutes = (
   <>
     <Route path="/tailor" element={<TailorHomePage />} />
-    <Route path="/tailor/dashboard" element={<TailorPlaceholderPage title="Dashboard" />} />
-    <Route path="/tailor/requests" element={<TailorPlaceholderPage title="Incoming requests" />} />
-    <Route path="/tailor/requests/:id" element={<TailorPlaceholderPage title="Request details" />} />
-    <Route path="/tailor/orders" element={<TailorPlaceholderPage title="Order management" />} />
-    <Route path="/tailor/orders/:id" element={<TailorPlaceholderPage title="Tailor order" />} />
-    <Route path="/tailor/profile" element={<TailorPlaceholderPage title="Tailor profile" />} />
+    <Route path="/tailor/dashboard" element={<TailorDashboardPage />} />
+    <Route path="/tailor/requests" element={<TailorRequestsPage />} />
+    <Route path="/tailor/requests/:id" element={<TailorRequestDetailPage />} />
+    <Route path="/tailor/orders" element={<TailorOrdersPage />} />
+    <Route path="/tailor/orders/:id" element={<TailorOrderDetailPage />} />
+    <Route path="/tailor/profile" element={<TailorProfilePage />} />
   </>
 );

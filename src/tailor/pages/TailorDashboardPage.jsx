@@ -9,47 +9,37 @@ import { formatMmk } from "../../shared/utils/format";
 import { DEMO_TAILOR } from "../demoTailor";
 import { isPendingRequest, studioStats } from "../studioUtils";
 
-export default function TailorHomePage() {
+export default function TailorDashboardPage() {
   const requests = getRequestsForTailor(DEMO_TAILOR.id);
   const orders = getOrdersForTailor(DEMO_TAILOR.id);
   const stats = studioStats(requests, orders);
-  const newest = requests.filter(isPendingRequest);
+  const pending = requests.filter(isPendingRequest);
 
   return (
     <StudioLayout>
-      <p className="eyebrow">Aung Tailoring</p>
-      <h1 className="serif studio-title">Tailor Studio</h1>
-      <p className="muted">Review incoming PatternX work and keep orders moving.</p>
+      <p className="eyebrow">Overview</p>
+      <h1 className="serif studio-title">Dashboard</h1>
       <div className="stat-grid">
         <StatCard label="Pending Requests" value={stats.pending} />
         <StatCard label="Active Orders" value={stats.active} />
-        <StatCard label="Completed Orders" value={stats.completed} />
+        <StatCard label="Completed" value={stats.completed} />
         <StatCard label="Revenue" value={formatMmk(stats.revenue)} />
       </div>
-      <div className="hero__actions">
-        <Link to="/tailor/dashboard">
-          <Button variant="primary">Dashboard</Button>
-        </Link>
-        <Link to="/tailor/requests">
-          <Button variant="secondary">Requests</Button>
-        </Link>
-        <Link to="/tailor/orders">
-          <Button variant="secondary">Orders</Button>
-        </Link>
-        <Link to="/tailor/profile">
-          <Button variant="ghost">Profile</Button>
-        </Link>
-      </div>
       <h2 className="serif">New Requests</h2>
-      {newest.length ? (
+      {pending.length ? (
         <div className="studio-list">
-          {newest.map((request) => (
+          {pending.map((request) => (
             <RequestCard key={request.id} request={request} />
           ))}
         </div>
       ) : (
         <p className="muted">No new customer requests yet.</p>
       )}
+      <p style={{ marginTop: 20 }}>
+        <Link to="/tailor/requests">
+          <Button variant="secondary">All requests</Button>
+        </Link>
+      </p>
     </StudioLayout>
   );
 }
