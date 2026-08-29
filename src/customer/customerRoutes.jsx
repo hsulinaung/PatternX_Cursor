@@ -9,18 +9,23 @@ import ReviewPage from "./pages/ReviewPage";
 import OrderConfirmedPage from "./pages/OrderConfirmedPage";
 import OrdersPage from "./pages/OrdersPage";
 import OrderDetailPage from "./pages/OrderDetailPage";
+import ProtectedRoute from "../auth/ProtectedRoute";
+
+function customerOnly(element) {
+  return <ProtectedRoute role="customer">{element}</ProtectedRoute>;
+}
 
 const customerScreens = [
-  { path: "", element: <HomePage /> },
-  { path: "assistant", element: <AssistantPage /> },
-  { path: "requirements", element: <RequirementsPage /> },
-  { path: "recommendations", element: <RecommendationsPage /> },
-  { path: "tailor/:id", element: <TailorDetailPage /> },
-  { path: "customize", element: <CustomizePage /> },
-  { path: "review", element: <ReviewPage /> },
-  { path: "order-confirmed", element: <OrderConfirmedPage /> },
-  { path: "orders", element: <OrdersPage /> },
-  { path: "orders/:id", element: <OrderDetailPage /> },
+  { path: "", element: <HomePage />, public: true },
+  { path: "assistant", element: customerOnly(<AssistantPage />) },
+  { path: "requirements", element: customerOnly(<RequirementsPage />) },
+  { path: "recommendations", element: customerOnly(<RecommendationsPage />) },
+  { path: "tailor/:id", element: <TailorDetailPage />, public: true },
+  { path: "customize", element: customerOnly(<CustomizePage />) },
+  { path: "review", element: customerOnly(<ReviewPage />) },
+  { path: "order-confirmed", element: customerOnly(<OrderConfirmedPage />) },
+  { path: "orders", element: customerOnly(<OrdersPage />) },
+  { path: "orders/:id", element: customerOnly(<OrderDetailPage />) },
 ];
 
 function pathFor(prefix, segment) {

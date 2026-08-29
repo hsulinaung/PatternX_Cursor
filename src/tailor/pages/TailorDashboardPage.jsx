@@ -6,12 +6,13 @@ import RequestCard from "../components/RequestCard";
 import { getRequestsForTailor } from "../../services/requestService";
 import { getOrdersForTailor } from "../../services/orderService";
 import { formatMmk } from "../../shared/utils/format";
-import { DEMO_TAILOR } from "../demoTailor";
+import { getActingTailor } from "../../auth/activeIdentity";
 import { isPendingRequest, studioStats } from "../studioUtils";
 
 export default function TailorDashboardPage() {
-  const requests = getRequestsForTailor(DEMO_TAILOR.id);
-  const orders = getOrdersForTailor(DEMO_TAILOR.id);
+  const studio = getActingTailor();
+  const requests = getRequestsForTailor(studio.id);
+  const orders = getOrdersForTailor(studio.id);
   const stats = studioStats(requests, orders);
   const pending = requests.filter(isPendingRequest);
 

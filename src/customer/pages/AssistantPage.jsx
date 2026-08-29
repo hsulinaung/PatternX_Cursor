@@ -8,7 +8,7 @@ import { parseRequest } from "../../services/aiService";
 import { saveRequirements, saveJourney } from "../../services/journeyService";
 import { mergeMessages } from "../../shared/utils/requirementParser";
 import { assistantAcknowledgement } from "../utils/orderHelpers";
-import { DEMO_CUSTOMER } from "../demoCustomer";
+import { getActingCustomer } from "../../auth/activeIdentity";
 
 const GREETING =
   "Hi! I'm your PatternX styling assistant. Tell me what you're looking for, and I'll find the best options for you.";
@@ -72,13 +72,14 @@ export default function AssistantPage() {
     }
 
     pendingRef.current = "";
+    const customer = getActingCustomer();
     saveJourney({
       originalRequest: combined,
       parseSource: result.source,
       parseWarning: result.warning || null,
-      customer: DEMO_CUSTOMER,
+      customer,
     });
-    saveRequirements(req, { originalRequest: combined, customer: DEMO_CUSTOMER });
+    saveRequirements(req, { originalRequest: combined, customer });
 
     setMessages((prev) => [
       ...prev,

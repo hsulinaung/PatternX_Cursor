@@ -9,7 +9,7 @@ import { getDesignRequestById, updateDesignRequest } from "../../services/reques
 import { createOrder, getOrderByRequestId, updateOrder } from "../../services/orderService";
 import { formatPriceRange, formatMmk, displayValue } from "../../shared/utils/format";
 import { formatDisplayDate } from "../../shared/utils/dates";
-import { DEMO_TAILOR } from "../demoTailor";
+import { getActingTailor } from "../../auth/activeIdentity";
 import {
   displayRequestStatus,
   isMockRequest,
@@ -21,6 +21,7 @@ export default function TailorRequestDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [request, setRequest] = useState(() => getDesignRequestById(id));
+  const studio = getActingTailor();
   const [error, setError] = useState("");
   const [quote, setQuote] = useState({
     price: request?.quotePrice || 220000,
@@ -28,7 +29,7 @@ export default function TailorRequestDetailPage() {
     notes: request?.quoteNotes || "Premium fabric, two fittings included.",
   });
 
-  if (!request || request.tailorId !== DEMO_TAILOR.id) {
+  if (!request || request.tailorId !== studio.id) {
     return (
       <StudioLayout>
         <EmptyState
@@ -92,8 +93,8 @@ export default function TailorRequestDetailPage() {
         createOrder({
           customerId: request.customerId,
           customer: resolveCustomerName(request),
-          tailorId: DEMO_TAILOR.id,
-          tailor: DEMO_TAILOR.name,
+          tailorId: studio.id,
+          tailor: studio.name,
           requestId: request.id,
           clothingType: request.clothingType,
           style: custom.style || request.style,

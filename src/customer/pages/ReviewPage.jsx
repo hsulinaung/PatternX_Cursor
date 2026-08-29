@@ -10,7 +10,7 @@ import { createDesignRequestRecord } from "../../services/requestService";
 import { createOrder } from "../../services/orderService";
 import { formatCompletion, formatPriceRange, formatMmk, displayValue } from "../../shared/utils/format";
 import { formatDisplayDate } from "../../shared/utils/dates";
-import { DEMO_CUSTOMER } from "../demoCustomer";
+import { getActingCustomer } from "../../auth/activeIdentity";
 import { defaultCustomization, estimatePrice } from "../utils/orderHelpers";
 
 export default function ReviewPage() {
@@ -40,9 +40,10 @@ export default function ReviewPage() {
 
   function confirm() {
     try {
+      const customer = getActingCustomer();
       const request = createDesignRequestRecord({
-        customerId: DEMO_CUSTOMER.customerId,
-        customerName: DEMO_CUSTOMER.name,
+        customerId: customer.customerId,
+        customerName: customer.name,
         tailorId: tailor.id,
         clothingType: customization.clothingType,
         occasion: requirements.occasion,
@@ -59,8 +60,8 @@ export default function ReviewPage() {
         status: "Submitted",
       });
       const order = createOrder({
-        customerId: DEMO_CUSTOMER.customerId,
-        customer: DEMO_CUSTOMER.name,
+        customerId: customer.customerId,
+        customer: customer.name,
         tailorId: tailor.id,
         tailor: tailor.name,
         requestId: request.id,

@@ -7,9 +7,11 @@ import Badge from "../../shared/components/Badge";
 import { formatPriceRange } from "../../shared/utils/format";
 import { emptyRequirements } from "../../shared/utils/requirementParser";
 import { saveRequirements } from "../../services/journeyService";
+import { useAuth } from "../../auth/AuthContext";
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   function goAssistant(prompt) {
     navigate("/assistant", { state: prompt ? { draftPrompt: prompt } : undefined });
@@ -38,6 +40,16 @@ export default function HomePage() {
             >
               Explore Tailors
             </Button>
+            {!user ? (
+              <>
+                <Button variant="ghost" onClick={() => navigate("/login")}>
+                  Login
+                </Button>
+                <Button variant="ghost" onClick={() => navigate("/register")}>
+                  Create Account
+                </Button>
+              </>
+            ) : null}
           </div>
         </div>
         <div className="prompt-panel">

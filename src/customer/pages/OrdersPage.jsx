@@ -6,15 +6,16 @@ import EmptyState from "../../shared/components/EmptyState";
 import { getOrdersForCustomer } from "../../services/orderService";
 import { formatMmk } from "../../shared/utils/format";
 import { formatDisplayDate } from "../../shared/utils/dates";
-import { DEMO_CUSTOMER } from "../demoCustomer";
+import { getActingCustomer } from "../../auth/activeIdentity";
 
 export default function OrdersPage() {
   const navigate = useNavigate();
-  const orders = getOrdersForCustomer(DEMO_CUSTOMER.customerId);
+  const customer = getActingCustomer();
+  const orders = getOrdersForCustomer(customer.customerId);
 
   return (
     <PageContainer>
-      <p className="eyebrow">For {DEMO_CUSTOMER.name}</p>
+      <p className="eyebrow">For {customer.name}</p>
       <h1 className="serif" style={{ fontSize: "2.4rem", marginTop: 4 }}>
         My orders
       </h1>

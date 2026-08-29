@@ -3,11 +3,11 @@ import EmptyState from "../../shared/components/EmptyState";
 import StudioLayout from "../components/StudioLayout";
 import OrderCard from "../components/OrderCard";
 import { getOrdersForTailor } from "../../services/orderService";
-import { DEMO_TAILOR } from "../demoTailor";
+import { getActingTailor } from "../../auth/activeIdentity";
 
 export default function TailorOrdersPage() {
   const navigate = useNavigate();
-  const orders = getOrdersForTailor(DEMO_TAILOR.id);
+  const orders = getOrdersForTailor(getActingTailor().id);
   const active = orders.filter((o) => o.status !== "Completed");
 
   return (

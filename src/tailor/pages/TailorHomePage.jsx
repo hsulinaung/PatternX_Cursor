@@ -6,18 +6,19 @@ import RequestCard from "../components/RequestCard";
 import { getRequestsForTailor } from "../../services/requestService";
 import { getOrdersForTailor } from "../../services/orderService";
 import { formatMmk } from "../../shared/utils/format";
-import { DEMO_TAILOR } from "../demoTailor";
+import { getActingTailor } from "../../auth/activeIdentity";
 import { isPendingRequest, studioStats } from "../studioUtils";
 
 export default function TailorHomePage() {
-  const requests = getRequestsForTailor(DEMO_TAILOR.id);
-  const orders = getOrdersForTailor(DEMO_TAILOR.id);
+  const studio = getActingTailor();
+  const requests = getRequestsForTailor(studio.id);
+  const orders = getOrdersForTailor(studio.id);
   const stats = studioStats(requests, orders);
   const newest = requests.filter(isPendingRequest);
 
   return (
     <StudioLayout>
-      <p className="eyebrow">Aung Tailoring</p>
+      <p className="eyebrow">{studio.name}</p>
       <h1 className="serif studio-title">Tailor Studio</h1>
       <p className="muted">Review incoming PatternX work and keep orders moving.</p>
       <div className="stat-grid">

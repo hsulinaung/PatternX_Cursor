@@ -4,11 +4,11 @@ import EmptyState from "../../shared/components/EmptyState";
 import StudioLayout from "../components/StudioLayout";
 import RequestCard from "../components/RequestCard";
 import { getRequestsForTailor } from "../../services/requestService";
-import { DEMO_TAILOR } from "../demoTailor";
+import { getActingTailor } from "../../auth/activeIdentity";
 
 export default function TailorRequestsPage() {
   const navigate = useNavigate();
-  const requests = getRequestsForTailor(DEMO_TAILOR.id);
+  const requests = getRequestsForTailor(getActingTailor().id);
 
   return (
     <StudioLayout>

@@ -9,7 +9,7 @@ import { getOrderById, updateOrder } from "../../services/orderService";
 import { getDesignRequestById } from "../../services/requestService";
 import { formatMmk, formatPriceRange, displayValue } from "../../shared/utils/format";
 import { formatDisplayDate } from "../../shared/utils/dates";
-import { DEMO_TAILOR } from "../demoTailor";
+import { getActingTailor } from "../../auth/activeIdentity";
 import { resolveCustomerName } from "../studioUtils";
 
 const STATUSES = ["Confirmed", "In Production", "Ready", "Completed"];
@@ -22,7 +22,8 @@ export default function TailorOrderDetailPage() {
   const [error, setError] = useState("");
   const [nextStatus, setNextStatus] = useState(order?.status || "Confirmed");
 
-  if (!order || order.tailorId !== DEMO_TAILOR.id) {
+  const studio = getActingTailor();
+  if (!order || order.tailorId !== studio.id) {
     return (
       <StudioLayout>
         <EmptyState
