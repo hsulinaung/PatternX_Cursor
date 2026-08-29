@@ -37,13 +37,17 @@ export default function TailorDetailPage() {
   return (
     <PageContainer>
       <p className="eyebrow">Atelier profile</p>
-      <div style={{ display: "flex", gap: 20, alignItems: "center", flexWrap: "wrap" }}>
+      <img className="atelier-cover" src={tailor.profileImage} alt={tailor.name} />
+      <div style={{ display: "flex", gap: 20, alignItems: "center", flexWrap: "wrap", marginTop: 20 }}>
         <Avatar src={tailor.profileImage} name={tailor.name} size="lg" />
         <div>
           <h1 style={{ margin: "4px 0" }}>{tailor.name}</h1>
           <p className="muted">{tailor.location}</p>
           <div className="hero__actions" style={{ marginTop: 8 }}>
-            <Badge tone="gold">★ {tailor.rating}</Badge>
+            <Badge tone="gold">
+              ★ {tailor.rating}
+              {tailor.reviewCount ? ` · ${tailor.reviewCount} reviews` : ""}
+            </Badge>
             <Badge tone={tailor.available ? "success" : "default"}>
               {tailor.available ? "Available" : "Unavailable"}
             </Badge>
@@ -52,13 +56,49 @@ export default function TailorDetailPage() {
         </div>
       </div>
       <p style={{ maxWidth: 640, marginTop: 20 }}>{tailor.description}</p>
-      <p>
-        <strong>Specialties:</strong> {tailor.specialties.join(", ")}
-      </p>
-      <p>
-        <strong>{formatPriceRange(tailor.priceMin, tailor.priceMax)}</strong>
-        <span className="muted"> · {formatCompletion(tailor.completionDays)}</span>
-      </p>
+      {tailor.highlight ? <p className="landing-atelier-card__highlight">{tailor.highlight}</p> : null}
+      <dl className="req-grid" style={{ marginTop: 20 }}>
+        {tailor.ownerName ? (
+          <div>
+            <dt>Lead tailor</dt>
+            <dd>{tailor.ownerName}</dd>
+          </div>
+        ) : null}
+        {tailor.yearsExperience ? (
+          <div>
+            <dt>Experience</dt>
+            <dd>{tailor.yearsExperience} years</dd>
+          </div>
+        ) : null}
+        <div>
+          <dt>Specialties</dt>
+          <dd>{tailor.specialties.join(", ")}</dd>
+        </div>
+        <div>
+          <dt>Style</dt>
+          <dd>{tailor.styles.join(", ")}</dd>
+        </div>
+        <div>
+          <dt>Price</dt>
+          <dd>{formatPriceRange(tailor.priceMin, tailor.priceMax)}</dd>
+        </div>
+        <div>
+          <dt>Turnaround</dt>
+          <dd>{formatCompletion(tailor.completionDays)}</dd>
+        </div>
+        {tailor.hours ? (
+          <div>
+            <dt>Hours</dt>
+            <dd>{tailor.hours}</dd>
+          </div>
+        ) : null}
+        {tailor.languages ? (
+          <div>
+            <dt>Languages</dt>
+            <dd>{tailor.languages.join(", ")}</dd>
+          </div>
+        ) : null}
+      </dl>
       {match?.reasons?.length ? (
         <ul className="why-list">
           {match.reasons.map((reason) => (

@@ -118,7 +118,7 @@ export async function ensureDemoUsers() {
       email: "aung@patternx.demo",
       phone: "0922222222",
       passwordHash: hash,
-      profileImage: "/images/tailors/aung.svg",
+      profileImage: "/images/tailors/aung.jpg",
       location: "Bahan, Yangon",
       address: "Bahan Township, Yangon",
       description:
@@ -129,7 +129,7 @@ export async function ensureDemoUsers() {
       priceMax: 280000,
       completionDaysMin: 4,
       completionDaysMax: 6,
-      sampleImages: ["/images/designs/suit-navy.svg", "/images/designs/suit-charcoal.svg"],
+      sampleImages: ["/images/designs/suit-navy.jpg", "/images/designs/suit-charcoal.jpg"],
       createdAt: "2026-08-01T00:00:00.000Z",
     },
   ];

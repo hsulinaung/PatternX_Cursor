@@ -19,13 +19,9 @@ export default function Navbar() {
       <nav className="navbar__links">
         {!ready ? null : !user ? (
           <>
-            <NavLink to="/" end>
-              Home
-            </NavLink>
             <NavLink to="/login">Login</NavLink>
-            <NavLink to="/register">Create Account</NavLink>
-            <Link to="/assistant" className="navbar__cta">
-              <span className="btn btn--primary">Find a tailor</span>
+            <Link to="/register" className="navbar__cta">
+              <span className="btn btn--primary">Get started</span>
             </Link>
           </>
         ) : user.role === "tailor" ? (
