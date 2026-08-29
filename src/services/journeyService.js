@@ -9,6 +9,10 @@ export function saveJourney(partial) {
   return saveSession(partial);
 }
 
+export function saveCustomization(customization) {
+  return saveSession({ customization });
+}
+
 export function saveRequirements(requirements, extras = {}) {
   const matches = matchTailors(requirements);
   return saveSession({

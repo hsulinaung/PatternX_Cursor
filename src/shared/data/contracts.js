@@ -36,6 +36,9 @@ export function createDesignRequest(partial = {}) {
     deadline: partial.deadline || null,
     notes: partial.notes || "",
     referenceImage: partial.referenceImage || null,
+    requirements: partial.requirements || null,
+    customization: partial.customization || null,
+    customerName: partial.customerName || null,
     status: partial.status || "Submitted",
     createdAt: partial.createdAt || new Date().toISOString(),
   };

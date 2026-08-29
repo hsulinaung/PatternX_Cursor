@@ -4,7 +4,11 @@ import AssistantPage from "./pages/AssistantPage";
 import RequirementsPage from "./pages/RequirementsPage";
 import RecommendationsPage from "./pages/RecommendationsPage";
 import TailorDetailPage from "./pages/TailorDetailPage";
-import PlaceholderPage from "./pages/PlaceholderPage";
+import CustomizePage from "./pages/CustomizePage";
+import ReviewPage from "./pages/ReviewPage";
+import OrderConfirmedPage from "./pages/OrderConfirmedPage";
+import OrdersPage from "./pages/OrdersPage";
+import OrderDetailPage from "./pages/OrderDetailPage";
 
 const customerScreens = [
   { path: "", element: <HomePage /> },
@@ -12,48 +16,11 @@ const customerScreens = [
   { path: "requirements", element: <RequirementsPage /> },
   { path: "recommendations", element: <RecommendationsPage /> },
   { path: "tailor/:id", element: <TailorDetailPage /> },
-  {
-    path: "customize",
-    element: (
-      <PlaceholderPage
-        title="Customize"
-        note="Color, fabric, fit, measurements, notes, and a reference image."
-        nextTo="/review"
-        nextLabel="Review order"
-      />
-    ),
-  },
-  {
-    path: "review",
-    element: (
-      <PlaceholderPage
-        title="Order review"
-        note="A full PatternX order summary before confirmation."
-        nextTo="/order-confirmed"
-        nextLabel="Confirm (placeholder)"
-      />
-    ),
-  },
-  {
-    path: "order-confirmed",
-    element: (
-      <PlaceholderPage
-        title="Your order is ready"
-        note="Confirmation and order ID will appear after the real confirm flow."
-        nextTo="/orders"
-        nextLabel="View my orders"
-      />
-    ),
-  },
-  {
-    path: "orders",
-    element: (
-      <PlaceholderPage
-        title="My orders"
-        note="Tracking from Confirmed through Completed will show here."
-      />
-    ),
-  },
+  { path: "customize", element: <CustomizePage /> },
+  { path: "review", element: <ReviewPage /> },
+  { path: "order-confirmed", element: <OrderConfirmedPage /> },
+  { path: "orders", element: <OrdersPage /> },
+  { path: "orders/:id", element: <OrderDetailPage /> },
 ];
 
 function pathFor(prefix, segment) {

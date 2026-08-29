@@ -133,7 +133,7 @@ export default function RequirementsPage() {
 
   return (
     <PageContainer>
-      <p className="eyebrow">PatternX understood your needs</p>
+      <p className="eyebrow">Here's what PatternX understood</p>
       <h1 className="serif" style={{ fontSize: "2.4rem", marginTop: 4 }}>
         Your request
       </h1>

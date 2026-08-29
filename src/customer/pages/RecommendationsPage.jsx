@@ -47,7 +47,7 @@ function TailorCard({ match, featured, onChoose }) {
       {featured ? <p className="explain">{explanation}</p> : null}
       <div className="hero__actions">
         <Button variant={featured ? "gold" : "primary"} onClick={() => onChoose(tailor)}>
-          {featured ? `Choose ${tailor.name}` : "Choose this"}
+          Choose This Tailor
         </Button>
         <Link to={`/tailor/${tailor.id}`}>View details</Link>
       </div>
@@ -79,8 +79,14 @@ export default function RecommendationsPage() {
   }
 
   function choose(tailor) {
-    saveJourney({ selectedTailorId: tailor.id, requirements: applied, matches });
-    navigate("/customize");
+    const match = matches.find((m) => m.tailor.id === tailor.id);
+    saveJourney({
+      selectedTailorId: tailor.id,
+      requirements: applied,
+      matches,
+      matchScore: match?.score ?? null,
+    });
+    navigate(`/tailor/${tailor.id}`);
   }
 
   if (!journey.requirements && !journey.originalRequest) {
@@ -128,10 +134,27 @@ export default function RecommendationsPage() {
         </Button>
       </Card>
 
-      {top ? <TailorCard match={top} featured onChoose={choose} /> : null}
+      {top ? (
+        <>
+          <p className="eyebrow" style={{ marginTop: 28 }}>
+            PatternX Top Match
+          </p>
+          <TailorCard match={top} featured onChoose={choose} />
+          {rest.length ? (
+            <p style={{ marginTop: 20 }}>
+              <Button
+                variant="secondary"
+                onClick={() => document.getElementById("other-matches")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                See Other Options
+              </Button>
+            </p>
+          ) : null}
+        </>
+      ) : null}
 
       {rest.length ? (
-        <div className="match-grid">
+        <div id="other-matches" className="match-grid">
           {rest.map((match) => (
             <TailorCard key={match.tailor.id} match={match} onChoose={choose} />
           ))}

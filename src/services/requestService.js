@@ -19,8 +19,19 @@ export function getRequestsForTailor(tailorId) {
   return getDesignRequests().filter((r) => r.tailorId === tailorId);
 }
 
+function nextRequestId(existing) {
+  const numbers = existing
+    .map((r) => Number(String(r.id || "").replace(/\D/g, "")))
+    .filter((n) => Number.isFinite(n));
+  const max = numbers.length ? Math.max(...numbers) : 2000;
+  return `DR-${max + 1}`;
+}
+
 export function createDesignRequestRecord(partial) {
-  const request = createDesignRequest(partial);
+  const request = createDesignRequest({
+    ...partial,
+    id: partial.id || nextRequestId(getDesignRequests()),
+  });
   const next = [request, ...getDesignRequests()];
   storageSet(REQUESTS_KEY, next);
   return request;

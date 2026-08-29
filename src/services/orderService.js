@@ -20,7 +20,11 @@ export function getOrders() {
 }
 
 export function getOrderById(orderId) {
-  return getOrders().find((o) => o.orderId === orderId) || null;
+  return getOrders().find((o) => o.orderId === orderId || o.id === orderId) || null;
+}
+
+export function getOrdersForCustomer(customerId) {
+  return getOrders().filter((o) => o.customerId === customerId);
 }
 
 export function createOrder(payload) {

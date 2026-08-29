@@ -7,6 +7,8 @@ import { DEMO_PROMPT } from "../../shared/data/tailors";
 import { parseRequest } from "../../services/aiService";
 import { saveRequirements, saveJourney } from "../../services/journeyService";
 import { mergeMessages } from "../../shared/utils/requirementParser";
+import { assistantAcknowledgement } from "../utils/orderHelpers";
+import { DEMO_CUSTOMER } from "../demoCustomer";
 
 const GREETING =
   "Hi! I'm your PatternX styling assistant. Tell me what you're looking for, and I'll find the best options for you.";
@@ -57,10 +59,6 @@ export default function AssistantPage() {
     const combined = mergeMessages(pendingRef.current, value);
     const result = await parseRequest(combined);
     const req = result.requirements;
-    const prefix =
-      result.source === "mock"
-        ? "I’ve understood your request."
-        : "I’ve analysed your request.";
 
     if (req?.needsClarification) {
       pendingRef.current = combined;
@@ -74,24 +72,20 @@ export default function AssistantPage() {
     }
 
     pendingRef.current = "";
-    saveJourney({ originalRequest: combined, parseSource: result.source, parseWarning: result.warning || null });
-    saveRequirements(req, { originalRequest: combined });
-
-    const summary = [
-      req.clothingType && `${req.clothingType}`,
-      req.occasion && `for a ${req.occasion.toLowerCase()}`,
-      (req.budgetMin || req.budgetMax) && "within your budget",
-      req.deadlineLabel && `by ${req.deadlineLabel.toLowerCase()}`,
-    ]
-      .filter(Boolean)
-      .join(" ");
+    saveJourney({
+      originalRequest: combined,
+      parseSource: result.source,
+      parseWarning: result.warning || null,
+      customer: DEMO_CUSTOMER,
+    });
+    saveRequirements(req, { originalRequest: combined, customer: DEMO_CUSTOMER });
 
     setMessages((prev) => [
       ...prev,
       {
         id: newId(),
         role: "ai",
-        text: `${prefix} ${summary ? `You’re looking for ${summary}.` : ""} I’ll show you the details so you can adjust anything before I match tailors.`,
+        text: assistantAcknowledgement(req),
       },
     ]);
     setLoading(false);
