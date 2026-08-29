@@ -132,6 +132,13 @@ h3,
   color: var(--px-text);
 }
 
+.navbar__studio-tag {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--px-secondary-dark);
+}
+
 .nav-text {
   border: 0;
   background: none;
@@ -404,9 +411,14 @@ h3,
   text-align: left;
 }
 
-.chip:hover {
+.chip:hover,
+.chip.is-on {
   border-color: var(--px-secondary);
   color: var(--px-text);
+}
+
+.chip.is-on {
+  background: rgba(196, 165, 116, 0.22);
 }
 
 .not-found {
@@ -680,6 +692,23 @@ h3,
 
 .landing-steps li {
   margin: 6px 0;
+}
+
+.preview-banner {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  border: 1px solid var(--px-border);
+  border-radius: var(--px-radius);
+  background: var(--px-surface);
+}
+
+.preview-banner p {
+  margin: 4px 0 0;
 }
 
 .landing-ateliers-wrap {

@@ -114,7 +114,7 @@ export async function ensureDemoUsers() {
       id: "t-aung",
       role: "tailor",
       name: "Aung Tailoring",
-      ownerName: "U Aung",
+      ownerName: "U Aung Min",
       email: "aung@patternx.demo",
       phone: "0922222222",
       passwordHash: hash,
@@ -123,22 +123,52 @@ export async function ensureDemoUsers() {
       address: "Bahan Township, Yangon",
       description:
         "Known across Bahan for modern slim-fit suits that stay sharp in Myanmar heat.",
+      highlight: "Wedding-week suits with two fittings included.",
+      hours: "Tue–Sun, 9:00–18:00",
+      languages: ["Myanmar", "English"],
+      yearsExperience: 18,
       specialties: ["Men's Suits", "Wedding Wear"],
       styles: ["Modern", "Slim Fit"],
       priceMin: 150000,
       priceMax: 280000,
       completionDaysMin: 4,
       completionDaysMax: 6,
-      sampleImages: ["/images/designs/suit-navy.jpg", "/images/designs/suit-charcoal.jpg"],
+      sampleImages: [
+        "/images/designs/suit-navy.jpg",
+        "/images/designs/suit-charcoal.jpg",
+        "/images/designs/suit-black.jpg",
+        "/images/designs/work-fitting.jpg",
+        "/images/designs/work-fabric.jpg",
+        "/images/designs/work-atelier.jpg",
+        "/images/designs/work-measure.jpg",
+      ],
       createdAt: "2026-08-01T00:00:00.000Z",
     },
   ];
 
+  const AUNG_SAMPLES = seeds.find((s) => s.id === "t-aung").sampleImages;
   let changed = false;
   const next = [...users];
   for (const seed of seeds) {
     if (!next.some((u) => u.id === seed.id)) {
       next.push(seed);
+      changed = true;
+    }
+  }
+  const aung = next.find((u) => u.id === "t-aung");
+  if (aung) {
+    const current = aung.sampleImages || [];
+    const onlyOldDefaults = current.every(
+      (src) =>
+        src.endsWith(".svg") ||
+        src === "/images/designs/suit-navy.jpg" ||
+        src === "/images/designs/suit-charcoal.jpg"
+    );
+    if (!current.length || (onlyOldDefaults && current.length < AUNG_SAMPLES.length)) {
+      aung.sampleImages = AUNG_SAMPLES;
+      if (aung.profileImage?.endsWith(".svg")) aung.profileImage = "/images/tailors/aung.jpg";
+      if (!aung.hours) aung.hours = "Tue–Sun, 9:00–18:00";
+      if (!aung.highlight) aung.highlight = "Wedding-week suits with two fittings included.";
       changed = true;
     }
   }

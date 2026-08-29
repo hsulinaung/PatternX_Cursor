@@ -26,8 +26,10 @@ export default function Navbar() {
           </>
         ) : user.role === "tailor" ? (
           <>
-            <NavLink to="/tailor/dashboard">Tailor Studio</NavLink>
-            <NavLink to="/tailor/profile">Profile</NavLink>
+            <span className="navbar__studio-tag">Studio</span>
+            <Link to={`/customer/tailor/${user.id}?preview=1`} className="navbar__cta">
+              <span className="btn btn--gold">Customer view</span>
+            </Link>
             <button type="button" className="nav-text" onClick={onLogout}>
               Logout
             </button>

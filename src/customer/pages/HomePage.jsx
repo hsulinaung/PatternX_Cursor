@@ -2,7 +2,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import PageContainer from "../../shared/components/PageContainer";
 import Button from "../../shared/components/Button";
 import Card from "../../shared/components/Card";
-import { DEMO_PROMPT, tailors } from "../../shared/data/tailors";
+import { DEMO_PROMPT, getPublicTailor } from "../../shared/data/tailors";
 import Avatar from "../../shared/components/Avatar";
 import Badge from "../../shared/components/Badge";
 import { formatCompletion, formatPriceRange } from "../../shared/utils/format";
@@ -10,8 +10,10 @@ import { emptyRequirements } from "../../shared/utils/requirementParser";
 import { saveRequirements } from "../../services/journeyService";
 import { useAuth } from "../../auth/AuthContext";
 
+const FEATURED_IDS = ["t-aung", "t-shwe", "t-mandalay", "t-nilar"];
+
 function AtelierStrip({ navigate }) {
-  const featured = tailors.slice(0, 4);
+  const featured = FEATURED_IDS.map(getPublicTailor).filter(Boolean);
   return (
     <section className="landing-ateliers-wrap">
       <p className="eyebrow">Four ateliers on PatternX</p>

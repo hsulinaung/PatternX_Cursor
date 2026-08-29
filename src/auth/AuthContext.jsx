@@ -7,6 +7,7 @@ import {
   logout as logoutService,
   registerCustomer as registerCustomerService,
   registerTailor as registerTailorService,
+  updateProfile as updateProfileService,
 } from "../services/authService.js";
 
 const AuthContext = createContext(null);
@@ -49,6 +50,12 @@ export function AuthProvider({ children }) {
       logout() {
         logoutService();
         setUser(null);
+      },
+      updateProfile(patch) {
+        if (!user) return null;
+        const next = updateProfileService(user.id, patch);
+        setUser(next);
+        return next;
       },
     }),
     [user, ready]

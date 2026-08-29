@@ -1,4 +1,4 @@
-import { tailors } from "../shared/data/tailors.js";
+import { listPublicTailors } from "../shared/data/tailors.js";
 import { daysUntil } from "../shared/utils/dates.js";
 import { formatCompletion, formatPriceRange } from "../shared/utils/format.js";
 
@@ -147,7 +147,7 @@ function buildExplanation(tailor, req, reasons) {
   return `PatternX selected ${tailor.name} as your best match because ${why.join(", ")}${req.deadline ? `, and their ${formatCompletion(tailor.completionDays)} turnaround fits your timeline` : ""}. Their prices (${formatPriceRange(tailor.priceMin, tailor.priceMax)}) sit against ${budget}.`;
 }
 
-export function matchTailors(requirements, catalog = tailors) {
+export function matchTailors(requirements, catalog = listPublicTailors()) {
   const req = requirements || {};
   const results = catalog.map((tailor) => {
     const clothing = clothingScore(req, tailor);

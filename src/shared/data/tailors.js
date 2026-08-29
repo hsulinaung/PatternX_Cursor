@@ -1,3 +1,5 @@
+import { storageGet } from "../../services/storageService.js";
+
 export const DEMO_PROMPT =
   "I want a suit for my friend's wedding next week, budget range is MMK 100000-300000.";
 
@@ -25,6 +27,11 @@ export const tailors = [
     sampleImages: [
       "/images/designs/suit-navy.jpg",
       "/images/designs/suit-charcoal.jpg",
+      "/images/designs/suit-black.jpg",
+      "/images/designs/work-fitting.jpg",
+      "/images/designs/work-fabric.jpg",
+      "/images/designs/work-atelier.jpg",
+      "/images/designs/work-measure.jpg",
     ],
   },
   {
@@ -224,6 +231,66 @@ export const tailors = [
   },
 ];
 
+function storedTailors() {
+  const users = storageGet("users", []);
+  return Array.isArray(users) ? users.filter((u) => u.role === "tailor") : [];
+}
+
+function fromUser(user, catalog) {
+  const base = catalog || {
+    id: user.id,
+    rating: 4.6,
+    reviewCount: 0,
+    available: true,
+    specialties: [],
+    styles: [],
+    sampleImages: [],
+    completionDays: { min: 5, max: 8 },
+  };
+  return {
+    ...base,
+    id: user.id || base.id,
+    name: user.name || base.name,
+    ownerName: user.ownerName || base.ownerName,
+    profileImage: user.profileImage || base.profileImage,
+    location: user.location || base.location,
+    address: user.address || base.address,
+    email: user.email || base.email,
+    phone: user.phone || base.phone,
+    description: user.description || base.description,
+    highlight: user.highlight || base.highlight,
+    hours: user.hours || base.hours,
+    languages: user.languages?.length ? user.languages : base.languages,
+    yearsExperience: user.yearsExperience ?? base.yearsExperience,
+    specialties: user.specialties?.length ? user.specialties : base.specialties,
+    styles: user.styles?.length ? user.styles : base.styles,
+    priceMin: user.priceMin ?? base.priceMin,
+    priceMax: user.priceMax ?? base.priceMax,
+    completionDays: {
+      min: user.completionDaysMin ?? base.completionDays?.min,
+      max: user.completionDaysMax ?? base.completionDays?.max,
+    },
+    sampleImages: user.sampleImages?.length ? user.sampleImages : base.sampleImages,
+    available: user.available ?? base.available ?? true,
+  };
+}
+
+export function getPublicTailor(id) {
+  if (!id) return null;
+  const catalog = tailors.find((t) => t.id === id) || null;
+  const user = storedTailors().find((u) => u.id === id);
+  if (user) return fromUser(user, catalog);
+  return catalog;
+}
+
+export function listPublicTailors() {
+  const byId = new Map(tailors.map((t) => [t.id, t]));
+  for (const user of storedTailors()) {
+    byId.set(user.id, fromUser(user, byId.get(user.id) || null));
+  }
+  return [...byId.values()];
+}
+
 export function getTailorById(id) {
-  return tailors.find((t) => t.id === id) || null;
+  return getPublicTailor(id);
 }

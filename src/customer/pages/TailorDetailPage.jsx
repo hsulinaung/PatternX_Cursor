@@ -1,20 +1,24 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import PageContainer from "../../shared/components/PageContainer";
 import Avatar from "../../shared/components/Avatar";
 import Badge from "../../shared/components/Badge";
 import Button from "../../shared/components/Button";
-import { getTailorById } from "../../shared/data/tailors";
+import { getPublicTailor } from "../../shared/data/tailors";
 import { formatCompletion, formatPriceRange } from "../../shared/utils/format";
 import { loadJourney, saveJourney } from "../../services/journeyService";
 import EmptyState from "../../shared/components/EmptyState";
+import { useAuth } from "../../auth/AuthContext";
 
 export default function TailorDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const tailor = getTailorById(id);
+  const [params] = useSearchParams();
+  const { user } = useAuth();
+  const tailor = getPublicTailor(id);
   const journey = loadJourney();
   const match = (journey.matches || []).find((m) => m.tailor?.id === id);
   const score = match?.score ?? journey.matchScore;
+  const preview = params.get("preview") === "1" || user?.id === id;
 
   if (!tailor) {
     return (
@@ -36,6 +40,17 @@ export default function TailorDetailPage() {
 
   return (
     <PageContainer>
+      {preview && user?.role === "tailor" && user.id === id ? (
+        <div className="preview-banner">
+          <div>
+            <p className="eyebrow">Customer view</p>
+            <p>This is how customers see your atelier. They cannot see your studio inbox.</p>
+          </div>
+          <Button variant="secondary" onClick={() => navigate("/tailor/profile")}>
+            Back to studio
+          </Button>
+        </div>
+      ) : null}
       <p className="eyebrow">Atelier profile</p>
       <img className="atelier-cover" src={tailor.profileImage} alt={tailor.name} />
       <div style={{ display: "flex", gap: 20, alignItems: "center", flexWrap: "wrap", marginTop: 20 }}>
@@ -72,11 +87,11 @@ export default function TailorDetailPage() {
         ) : null}
         <div>
           <dt>Specialties</dt>
-          <dd>{tailor.specialties.join(", ")}</dd>
+          <dd>{(tailor.specialties || []).join(", ")}</dd>
         </div>
         <div>
           <dt>Style</dt>
-          <dd>{tailor.styles.join(", ")}</dd>
+          <dd>{(tailor.styles || []).join(", ")}</dd>
         </div>
         <div>
           <dt>Price</dt>
@@ -114,10 +129,26 @@ export default function TailorDetailPage() {
         </div>
       ) : null}
       <div className="hero__actions">
-        <Button variant="primary" onClick={customize}>
-          Customize My Order
-        </Button>
-        <Link to="/recommendations">Back to matches</Link>
+        {user?.role === "tailor" && user.id === id ? (
+          <Button variant="primary" onClick={() => navigate("/tailor/profile")}>
+            Edit my profile
+          </Button>
+        ) : user?.role === "tailor" ? (
+          <Button variant="secondary" onClick={() => navigate("/tailor/dashboard")}>
+            Back to studio
+          </Button>
+        ) : (
+          <Button variant="primary" onClick={customize}>
+            Customize My Order
+          </Button>
+        )}
+        {user?.role === "tailor" && user.id === id ? (
+          <Button variant="ghost" onClick={() => navigate("/tailor/dashboard")}>
+            Studio dashboard
+          </Button>
+        ) : user?.role === "tailor" ? null : (
+          <Link to="/recommendations">Back to matches</Link>
+        )}
       </div>
     </PageContainer>
   );
