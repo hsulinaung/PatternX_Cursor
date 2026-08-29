@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import PageContainer from "../components/PageContainer";
-import Avatar from "../components/Avatar";
-import Badge from "../components/Badge";
-import { getTailorById } from "../data/tailors";
-import { formatCompletion, formatPriceRange } from "../utils/format";
+import PageContainer from "../../shared/components/PageContainer";
+import Avatar from "../../shared/components/Avatar";
+import Badge from "../../shared/components/Badge";
+import { getTailorById } from "../../shared/data/tailors";
+import { formatCompletion, formatPriceRange } from "../../shared/utils/format";
 
 export default function TailorDetailPage() {
   const { id } = useParams();

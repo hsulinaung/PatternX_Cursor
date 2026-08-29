@@ -1,9 +1,27 @@
-/**
- * Calls the Netlify parse-request function when available.
- * Falls back to a deterministic mock so the UI never depends on an API key.
- */
+import { parseRequirements, normalizeRequirements } from "../shared/utils/requirementParser.js";
+
+function fallbackParse(message) {
+  return { ...parseRequirements(message), source: "mock" };
+}
+
+function looksValid(data) {
+  return data && typeof data === "object" && data.requirements && typeof data.requirements === "object";
+}
+
 export async function parseRequest(message) {
   const text = (message || "").trim();
+  if (!text) {
+    return {
+      ok: false,
+      source: "client",
+      error: "empty",
+      message: text,
+      requirements: normalizeRequirements({
+        needsClarification: true,
+        clarificationQuestion: "Tell me what you'd like made, including a budget if you can.",
+      }),
+    };
+  }
 
   try {
     const response = await fetch("/.netlify/functions/parse-request", {
@@ -11,45 +29,17 @@ export async function parseRequest(message) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: text }),
     });
-
-    if (!response.ok) {
-      throw new Error(`parse-request failed: ${response.status}`);
-    }
-
+    if (!response.ok) throw new Error(`parse-request failed: ${response.status}`);
     const data = await response.json();
-    if (data && data.requirements) {
-      return { ...data, source: data.source || "netlify" };
-    }
+    if (!looksValid(data)) throw new Error("invalid AI response");
+    return {
+      ok: true,
+      source: data.source || "netlify",
+      message: text,
+      requirements: normalizeRequirements(data.requirements),
+      warning: data.warning || null,
+    };
   } catch {
-    // Function unavailable in Vite-only local dev — use mock.
+    return fallbackParse(text);
   }
-
-  return mockParse(text);
-}
-
-export function mockParse(message) {
-  const lower = (message || "").toLowerCase();
-  const wantsSuit = /suit|tuxedo|blazer/.test(lower);
-  const wantsWedding = /wedding|ceremony|reception/.test(lower);
-  const budget = lower.match(/mmk\s*(\d[\d,]*)\s*[-–to]+\s*(\d[\d,]*)/i);
-
-  return {
-    ok: true,
-    source: "mock",
-    message,
-    clarification: null,
-    requirements: {
-      clothingType: wantsSuit ? "Men's Suit" : null,
-      occasion: wantsWedding ? "Wedding" : null,
-      gender: /women|ladies|her /.test(lower) ? "Women" : "Men",
-      style: /slim/.test(lower) ? "Modern Slim Fit" : null,
-      color: null,
-      fabric: null,
-      budgetMin: budget ? Number(budget[1].replace(/,/g, "")) : null,
-      budgetMax: budget ? Number(budget[2].replace(/,/g, "")) : null,
-      deadline: /next week/.test(lower) ? "next week" : null,
-      location: null,
-      preferences: [],
-    },
-  };
 }

@@ -1,4 +1,4 @@
-import { sampleOrders } from "../data/orders";
+import { sampleOrders } from "../shared/data/orders.js";
 import { storageGet, storageSet } from "./storageService";
 
 const ORDERS_KEY = "orders";
@@ -25,8 +25,12 @@ export function getOrderById(orderId) {
 
 export function createOrder(payload) {
   const orders = getOrders();
+  const orderId = payload.orderId || payload.id || nextOrderId(orders);
   const order = {
-    orderId: payload.orderId || nextOrderId(orders),
+    id: orderId,
+    orderId,
+    customerId: payload.customerId || "c-demo",
+    requestId: payload.requestId || null,
     status: payload.status || "Confirmed",
     customer: payload.customer || "Demo Guest",
     tailor: payload.tailor || "",
@@ -37,6 +41,7 @@ export function createOrder(payload) {
     occasion: payload.occasion || "",
     price: payload.price ?? 0,
     deadline: payload.deadline || "",
+    customization: payload.customization || {},
     createdAt: payload.createdAt || new Date().toISOString(),
     notes: payload.notes || "",
   };

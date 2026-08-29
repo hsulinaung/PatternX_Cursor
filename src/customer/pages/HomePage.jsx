@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import PageContainer from "../components/PageContainer";
-import Button from "../components/Button";
-import { DEMO_PROMPT, tailors } from "../data/tailors";
-import Avatar from "../components/Avatar";
-import Badge from "../components/Badge";
-import { formatPriceRange } from "../utils/format";
+import PageContainer from "../../shared/components/PageContainer";
+import Button from "../../shared/components/Button";
+import { DEMO_PROMPT, tailors } from "../../shared/data/tailors";
+import Avatar from "../../shared/components/Avatar";
+import Badge from "../../shared/components/Badge";
+import { formatPriceRange } from "../../shared/utils/format";
+import { emptyRequirements } from "../../shared/utils/requirementParser";
+import { saveRequirements } from "../../services/journeyService";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -27,7 +29,13 @@ export default function HomePage() {
             <Button variant="primary" onClick={() => goAssistant()}>
               Find My Perfect Tailor
             </Button>
-            <Button variant="secondary" onClick={() => navigate("/recommendations")}>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                saveRequirements(emptyRequirements(), { originalRequest: "" });
+                navigate("/recommendations");
+              }}
+            >
               Explore Tailors
             </Button>
           </div>

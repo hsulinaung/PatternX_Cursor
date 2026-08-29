@@ -14,6 +14,8 @@ export default function Navbar() {
         <NavLink to="/assistant">Assistant</NavLink>
         <NavLink to="/recommendations">Tailors</NavLink>
         <NavLink to="/orders">Orders</NavLink>
+        <NavLink to="/tailor">Studio</NavLink>
+        <NavLink to="/demo">Demo</NavLink>
         <Link to="/assistant" className="navbar__cta">
           <span className="btn btn--primary">Find a tailor</span>
         </Link>

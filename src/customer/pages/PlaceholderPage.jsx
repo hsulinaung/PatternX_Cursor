@@ -1,5 +1,5 @@
-import PageContainer from "../components/PageContainer";
-import Button from "../components/Button";
+import PageContainer from "../../shared/components/PageContainer";
+import Button from "../../shared/components/Button";
 import { Link } from "react-router-dom";
 
 export default function PlaceholderPage({ title, note, nextTo, nextLabel }) {

@@ -405,6 +405,147 @@ h3,
   padding: 80px 20px;
 }
 
+.form-error {
+  color: var(--px-danger);
+  font-size: 0.92rem;
+}
+
+.quote {
+  color: var(--px-muted);
+  font-family: var(--px-serif);
+  font-size: 1.25rem;
+  max-width: 40rem;
+}
+
+.req-card,
+.req-edit,
+.match-card {
+  margin-top: 24px;
+}
+
+.req-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 32px;
+  margin: 0 0 28px;
+}
+
+.req-grid dt {
+  color: var(--px-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.req-grid dd {
+  margin: 4px 0 0;
+  font-size: 1.15rem;
+}
+
+.req-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 18px;
+  margin: 16px 0 20px;
+}
+
+.req-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--px-muted);
+}
+
+.req-form input {
+  border: 1px solid var(--px-border);
+  border-radius: var(--px-radius-sm);
+  padding: 10px 12px;
+  background: var(--px-surface);
+  color: var(--px-text);
+}
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 25, 22, 0.35);
+  display: grid;
+  place-items: end center;
+  z-index: 40;
+}
+
+.drawer {
+  width: min(640px, 100%);
+  background: var(--px-surface);
+  border-radius: 24px 24px 0 0;
+  padding: 28px;
+  box-shadow: var(--px-shadow);
+}
+
+.match-card__head {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.match-card--top {
+  background: var(--px-bg-deep);
+  color: var(--px-text-on-dark);
+  border-color: transparent;
+}
+
+.match-card--top a {
+  color: var(--px-secondary);
+}
+
+.match-score {
+  font-family: var(--px-serif);
+  font-size: 2rem;
+  color: var(--px-secondary);
+}
+
+.muted {
+  color: var(--px-muted);
+}
+
+.why {
+  margin: 16px 0 8px;
+}
+
+.why-list {
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.why-list li {
+  margin: 4px 0;
+}
+
+.explain {
+  line-height: 1.45;
+}
+
+.match-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.lead-line {
+  color: var(--px-muted);
+  max-width: 40rem;
+}
+
+@media (max-width: 700px) {
+  .req-grid,
+  .req-form {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
