@@ -19,7 +19,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173
+Open https://patternxcursor.netlify.app/
 
 The parse-request function is a placeholder until you run the Netlify CLI (`netlify dev`) or deploy. The frontend mock parser still works without an API key.
 
