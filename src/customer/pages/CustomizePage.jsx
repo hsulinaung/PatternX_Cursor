@@ -5,9 +5,13 @@ import Button from "../../shared/components/Button";
 import Card from "../../shared/components/Card";
 import Avatar from "../../shared/components/Avatar";
 import EmptyState from "../../shared/components/EmptyState";
+import MeasurementList from "../../shared/components/MeasurementList";
 import { getTailorById } from "../../shared/data/tailors";
 import { loadJourney, saveCustomization, saveJourney } from "../../services/journeyService";
+import { getMeasurementProfile } from "../../services/measurementService";
+import { getActingCustomer } from "../../auth/activeIdentity";
 import { defaultCustomization } from "../utils/orderHelpers";
+import { sourceLabel } from "../../shared/utils/measurements";
 
 const MAX_IMAGE_CHARS = 350000;
 
@@ -18,6 +22,7 @@ export default function CustomizePage() {
   const [form, setForm] = useState(defaultCustomization(journey.requirements || {}, journey.customization || {}));
   const [error, setError] = useState("");
   const [imageNote, setImageNote] = useState("");
+  const profile = getMeasurementProfile(getActingCustomer().customerId);
 
   if (!tailor) {
     return (
@@ -60,6 +65,13 @@ export default function CustomizePage() {
       setImageNote("The image could not be read. Continue without it if you like.");
     };
     reader.readAsDataURL(file);
+  }
+
+  function goToMeasurements(mode) {
+    saveCustomization(form);
+    saveJourney({ selectedTailorId: tailor.id, customization: form });
+    const query = mode ? `?mode=${mode}` : "";
+    navigate(`/measurements${query}`);
   }
 
   function review() {
@@ -144,6 +156,38 @@ export default function CustomizePage() {
         <p className="muted">Reference file: {form.referenceImageName}</p>
       ) : null}
       {imageNote ? <p className="muted">{imageNote}</p> : null}
+
+      <Card className="req-card measure-attach">
+        <p className="eyebrow">Optional</p>
+        <h2 className="serif" style={{ marginTop: 0 }}>
+          Get my measurements
+        </h2>
+        <p className="muted">
+          Attach AI-estimated or manual measurements to this order. You can skip this and review without
+          them.
+        </p>
+        {form.measurements ? (
+          <MeasurementList
+            measurements={form.measurements}
+            source={form.measurementSource}
+            title="Attached to this order"
+          />
+        ) : profile ? (
+          <p className="muted">
+            Saved profile available · {sourceLabel(profile.source)} ·{" "}
+            {new Date(profile.updatedAt).toLocaleDateString()}
+          </p>
+        ) : null}
+        <div className="hero__actions">
+          <Button variant="gold" onClick={() => goToMeasurements(form.measurements || profile ? "" : "camera")}>
+            Get My Measurements
+          </Button>
+          <Button variant="secondary" onClick={() => goToMeasurements("manual")}>
+            Enter Manually
+          </Button>
+        </div>
+      </Card>
+
       {error ? <p className="form-error">{error}</p> : null}
       <div className="hero__actions">
         <Button variant="secondary" onClick={() => navigate(-1)}>

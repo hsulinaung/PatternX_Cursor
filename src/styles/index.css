@@ -672,6 +672,102 @@ h3,
   }
 }
 
+.privacy-note {
+  font-size: 0.85rem;
+  color: var(--px-muted);
+  max-width: 40rem;
+  margin: 8px 0 0;
+}
+
+.measure-tips {
+  margin: 8px 0 20px;
+  padding-left: 1.2rem;
+  color: var(--px-text);
+}
+
+.measure-tips li {
+  margin: 6px 0;
+}
+
+.measure-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.measure-input input {
+  flex: 1;
+  min-width: 0;
+}
+
+.measure-input em {
+  font-style: normal;
+  color: var(--px-muted);
+  font-size: 0.85rem;
+}
+
+.measure-block {
+  margin-top: 20px;
+}
+
+.measure-attach .hero__actions,
+.measure-page .hero__actions {
+  flex-wrap: wrap;
+}
+
+.camera-stage {
+  position: relative;
+  width: min(100%, 360px);
+  margin: 8px auto 16px;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--px-radius);
+  overflow: hidden;
+  background: #1c1916;
+  border: 1px solid var(--px-border);
+}
+
+.camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+.camera-guide {
+  position: absolute;
+  inset: 8%;
+  width: 84%;
+  height: 84%;
+  fill: none;
+  stroke: var(--px-secondary);
+  stroke-width: 3;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.scan-bar {
+  height: 4px;
+  margin: 28px auto 8px;
+  width: min(280px, 80%);
+  border-radius: 99px;
+  background: linear-gradient(90deg, transparent, var(--px-secondary), transparent);
+  background-size: 200% 100%;
+  animation: scan-move 1.2s linear infinite;
+}
+
+@keyframes scan-move {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+.measure-page {
+  overflow-x: hidden;
+}
+
 @media (max-width: 640px) {
   .navbar__links a:not(.navbar__cta) {
     display: none;

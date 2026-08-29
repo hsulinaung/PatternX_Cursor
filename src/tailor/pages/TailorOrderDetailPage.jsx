@@ -10,6 +10,7 @@ import { getDesignRequestById } from "../../services/requestService";
 import { formatMmk, formatPriceRange, displayValue } from "../../shared/utils/format";
 import { formatDisplayDate } from "../../shared/utils/dates";
 import { getActingTailor } from "../../auth/activeIdentity";
+import MeasurementList from "../../shared/components/MeasurementList";
 import { resolveCustomerName } from "../studioUtils";
 
 const STATUSES = ["Confirmed", "In Production", "Ready", "Completed"];
@@ -104,6 +105,11 @@ export default function TailorOrderDetailPage() {
         {request?.referenceImage ? (
           <img className="ref-preview" src={request.referenceImage} alt="Reference" />
         ) : null}
+        <MeasurementList
+          measurements={custom.measurements}
+          source={custom.measurementSource}
+          title="Customer Measurements"
+        />
       </Card>
 
       <h2 className="serif">Progress</h2>

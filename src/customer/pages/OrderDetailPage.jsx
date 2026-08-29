@@ -9,6 +9,7 @@ import { getDesignRequestById } from "../../services/requestService";
 import { getTailorById } from "../../shared/data/tailors";
 import { formatCompletion, formatMmk, formatPriceRange, displayValue } from "../../shared/utils/format";
 import { formatDisplayDate } from "../../shared/utils/dates";
+import MeasurementList from "../../shared/components/MeasurementList";
 
 const STEPS = [
   "Request submitted",
@@ -91,6 +92,11 @@ export default function OrderDetailPage() {
             <dd>{displayValue(order.requestId)}</dd>
           </div>
         </dl>
+        <MeasurementList
+          measurements={custom.measurements}
+          source={custom.measurementSource}
+          title="Measurements"
+        />
       </Card>
       <h2 className="serif">Progress</h2>
       <ol className="timeline">

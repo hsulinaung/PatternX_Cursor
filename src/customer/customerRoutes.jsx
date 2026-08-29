@@ -5,6 +5,7 @@ import RequirementsPage from "./pages/RequirementsPage";
 import RecommendationsPage from "./pages/RecommendationsPage";
 import TailorDetailPage from "./pages/TailorDetailPage";
 import CustomizePage from "./pages/CustomizePage";
+import MeasurementsPage from "./pages/MeasurementsPage";
 import ReviewPage from "./pages/ReviewPage";
 import OrderConfirmedPage from "./pages/OrderConfirmedPage";
 import OrdersPage from "./pages/OrdersPage";
@@ -22,6 +23,7 @@ const customerScreens = [
   { path: "recommendations", element: customerOnly(<RecommendationsPage />) },
   { path: "tailor/:id", element: <TailorDetailPage />, public: true },
   { path: "customize", element: customerOnly(<CustomizePage />) },
+  { path: "measurements", element: customerOnly(<MeasurementsPage />) },
   { path: "review", element: customerOnly(<ReviewPage />) },
   { path: "order-confirmed", element: customerOnly(<OrderConfirmedPage />) },
   { path: "orders", element: customerOnly(<OrdersPage />) },

@@ -39,6 +39,8 @@ export function defaultCustomization(requirements = {}, existing = {}) {
     notes: existing.notes || "",
     referenceImage: existing.referenceImage || null,
     referenceImageName: existing.referenceImageName || "",
+    measurements: existing.measurements || null,
+    measurementSource: existing.measurementSource || null,
   };
 }
 

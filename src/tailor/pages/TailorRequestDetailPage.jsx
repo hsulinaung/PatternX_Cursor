@@ -10,6 +10,7 @@ import { createOrder, getOrderByRequestId, updateOrder } from "../../services/or
 import { formatPriceRange, formatMmk, displayValue } from "../../shared/utils/format";
 import { formatDisplayDate } from "../../shared/utils/dates";
 import { getActingTailor } from "../../auth/activeIdentity";
+import MeasurementList from "../../shared/components/MeasurementList";
 import {
   displayRequestStatus,
   isMockRequest,
@@ -173,6 +174,11 @@ export default function TailorRequestDetailPage() {
         ) : request.referenceImage ? (
           <img className="ref-preview" src={request.referenceImage} alt="Customer reference" />
         ) : null}
+        <MeasurementList
+          measurements={custom.measurements}
+          source={custom.measurementSource}
+          title="Customer Measurements"
+        />
       </Card>
 
       {error ? <p className="form-error">{error}</p> : null}

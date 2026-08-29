@@ -11,6 +11,7 @@ import { createOrder } from "../../services/orderService";
 import { formatCompletion, formatPriceRange, formatMmk, displayValue } from "../../shared/utils/format";
 import { formatDisplayDate } from "../../shared/utils/dates";
 import { getActingCustomer } from "../../auth/activeIdentity";
+import MeasurementList from "../../shared/components/MeasurementList";
 import { defaultCustomization, estimatePrice } from "../utils/orderHelpers";
 
 export default function ReviewPage() {
@@ -138,6 +139,22 @@ export default function ReviewPage() {
         {customization.referenceImage ? (
           <img className="ref-preview" src={customization.referenceImage} alt="Reference" />
         ) : null}
+        {customization.measurements ? (
+          <>
+            <MeasurementList
+              measurements={customization.measurements}
+              source={customization.measurementSource}
+              title="Measurements"
+            />
+            <Button variant="secondary" onClick={() => navigate("/measurements")}>
+              Edit Measurements
+            </Button>
+          </>
+        ) : (
+          <Button variant="secondary" onClick={() => navigate("/measurements")}>
+            Add measurements
+          </Button>
+        )}
         {error ? <p className="form-error">{error}</p> : null}
         <div className="hero__actions">
           <Button variant="secondary" onClick={() => navigate("/customize")}>
